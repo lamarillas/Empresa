@@ -1,0 +1,166 @@
+<form>
+  <!--<div class="row">
+    <div class="position-relative">
+      <div class="position-absolute top-0 end-0">
+        <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
+          <button type="button" class="btn btn-outline-dark">Nuevo</button>
+          <button type="button" class="btn btn-outline-dark">Consultar</button>
+          <button type="button" class="btn btn-outline-dark">Guardar</button>
+          <button type="button" class="btn btn-outline-dark">Limpiar</button>
+        </div>
+      </div>
+    </div>
+  </div>-->
+  <div class="col-12">
+    <div class="mb-9">
+      <div class="card shadow-none border my-4">
+        <div class="card-header p-4 border-bottom bg-body">
+          <div class="row g-3 justify-content-between align-items-center">
+            <div class="col-12 col-md">
+              <h4 class="text-body mb-0">Empleados</h4>
+            </div>
+            <div class="col col-md-auto">
+              <nav class="nav justify-content-end doc-tab-nav align-items-center">
+                <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
+                  <button type="button" class="btn btn-outline-dark">Nuevo</button>
+                  <button type="button" class="btn btn-outline-dark" (click)="consultar()">Consultar</button>
+                  <button type="button" class="btn btn-outline-dark" (click)="guardar()">Guardar</button>
+                  <button type="button" class="btn btn-outline-dark">Limpiar</button>
+                </div>
+              </nav>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body p-0">
+          <div class="p-4">
+            <div class="row mb-4">
+              <div class="col-4">
+                <label for="empleado_id" class="form-label col-form-label-sm">ID Empleado</label>
+                <div class="col-6">
+                  <div class="input-group input-group-sm mb-3">
+                    <input type="number" id="empleado_id" class="form-control form-control-sm" name="empleado_id" aria-label=".form-control-sm">
+                    <button class="btn btn-sm btn-outline-secondary" type="button" id="btn-consultar">Consultar</button>
+                  </div>
+                </div>
+
+              </div>
+              <div class="col-4">
+                <label for="empleado_fecha_nacimiento" class="form-label  col-form-label-sm">Fecha Nacimiento</label>
+                <div class="col-6">
+                  <input type="date" id="empleado_fecha_nacimiento" class="form-control form-control-sm" name="empleado_fecha_nacimiento" aria-label=".form-control-sm">
+                </div>
+
+              </div>
+              <div class="col-4">
+                <label for="empleado_estatus" class="form-label col-form-label-sm">Estatus</label>
+                <div class="col-8">
+                  <select class="form-select form-select-sm" id="empleado_estatus" name="empleado_estatus">
+                    <option selected>-- Seleccione --</option>
+                    <option>Activo</option>
+                    <option>No activo</option>
+                  </select>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-4">
+                <label for="empleado_nombre" class="form-label col-form-label-sm">Nombre</label>
+                <input type="text" id="empleado_nombre" class="form-control form-control-sm" name="empleado_nombre" aria-label=".form-control-sm">
+              </div>
+              <div class="col-4">
+                <label for="empleado_nombre_paterno" class="form-label col-form-label-sm">Apellido Paterno</label>
+                <input type="text" id="empleado_nombre_paterno" class="form-control form-control-sm" name="empleado_nombre_paterno" aria-label=".form-control-sm">
+
+              </div>
+              <div class="col-4">
+                <label for="empleado_nombre_materno" class="form-label col-form-label-sm">Apellido Materno</label>
+                <input type="text" id="empleado_nombre_materno" class="form-control form-control-sm" name="empleado_nombre_materno" aria-label=".form-control-sm">
+              </div>
+
+            </div>
+
+          </div>
+
+
+
+          <hr />
+
+
+
+          <div class="p-4" *ngIf="empleados$ | async as data">
+
+
+            <table class="table table-sm caption-top">
+              <caption>Listado de empleados - 4 en Total</caption>
+              <thead>
+                <tr>
+                  <th>Empleado ID</th>
+                  <th>Nombre</th>
+                  <th>Fecha Nac.</th>
+                  <th>Estatus</th>
+                  <th> </th>
+                </tr>
+              </thead>
+              <tbody class="table-group-divider">
+
+                <ng-container *ngFor="let emp of data.result">
+                  <tr>
+                    <td>{{ emp.empleado_Id }}</td>
+                    <td>{{ emp.nombre }} {{ emp.apellido_Paterno }} {{ emp.apellido_Materno }}</td>
+                    <td>{{ emp.fecha_Nacimiento }}</td>
+                    <td>{{ emp.estatus.descripcion }}</td>
+                    <td>
+                      <a href="#">Seleccionar</a>
+                    </td>
+                  </tr>
+                </ng-container>
+
+
+
+                <!--<tr>
+    <td>001</td>
+    <td>Leobardo Amarillas</td>
+    <td>10/11/1982</td>
+    <td>Activo</td>
+    <td>
+      <a href="#">Seleccionar</a>
+    </td>
+  </tr>
+  <tr>
+    <td>001</td>
+    <td>Leobardo Amarillas</td>
+    <td>10/11/1982</td>
+    <td>Activo</td>
+    <td>
+      <a href="#">Seleccionar</a>
+    </td>
+  </tr>
+  <tr>
+    <td>001</td>
+    <td>Leobardo Amarillas</td>
+    <td>10/11/1982</td>
+    <td>Activo</td>
+    <td>
+      <a href="#">Seleccionar</a>
+    </td>
+  </tr>-->
+              </tbody>
+
+            </table>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+</form>
+
+
+
