@@ -14,19 +14,30 @@ export class EmpleadoService {
   }
 
   getById(empleado_Id: number) {
+    console.log(this.baseUrl + 'api/empleado/' + empleado_Id);
     return this.http.get(this.baseUrl + 'api/empleado/' + empleado_Id);
   }
 
   save(empleado: IEmpleado) {
     return this.http.post(this.baseUrl + 'api/empleado', empleado);
   }
+
+  update(empleado: IEmpleado) {
+    return this.http.put(this.baseUrl + 'api/empleado', empleado);
+  }
+
+
+  deleteById(empleado_Id: number) {
+    console.log(this.baseUrl + 'api/empleado/' + empleado_Id);
+    return this.http.delete(this.baseUrl + 'api/empleado/' + empleado_Id);
+  }
 }
 
 export interface IEmpleado {
   empleado_Id: number;
   nombre: string;
-  apellido_paterno: string;
-  apellido_materno: string;
-  fecha_nacimiento: Date;
+  apellido_Paterno: string;
+  apellido_Materno: string;
+  fecha_Nacimiento: Date;
   estatus_Id: number
 }

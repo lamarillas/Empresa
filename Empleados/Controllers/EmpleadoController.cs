@@ -37,7 +37,7 @@ namespace Empleados.Controllers
         }
 
         [HttpGet]
-        [Route("/id")]
+        [Route("{empleado_Id:int}")]
         public async Task<object> GetById(int empleado_id)
         {
             try
@@ -57,11 +57,11 @@ namespace Empleados.Controllers
         }
 
         [HttpPost]
-        public async Task<object> Post([FromBody] Empleado empleadoDto)
+        public async Task<object> Post([FromBody] Empleado empleado)
         {
             try
             {
-                Empleado empleadoCreated = await _empleadoRepository.CreateUpdateEmpleado(empleadoDto);
+                Empleado empleadoCreated = await _empleadoRepository.CreateUpdateEmpleado(empleado);
                 _response.Result = empleadoCreated;
 
                 return _response;
@@ -77,11 +77,11 @@ namespace Empleados.Controllers
 
 
         [HttpPut]
-        public async Task<object> Put([FromBody] Empleado empleadoDto)
+        public async Task<object> Put([FromBody] Empleado empleado)
         {
             try
             {
-                Empleado empleadoUpdated = await _empleadoRepository.CreateUpdateEmpleado(empleadoDto);
+                Empleado empleadoUpdated = await _empleadoRepository.CreateUpdateEmpleado(empleado);
                 _response.Result = empleadoUpdated;
 
                 return _response;
@@ -96,12 +96,13 @@ namespace Empleados.Controllers
         }
 
         [HttpDelete]
+        [Route("{empleado_Id:int}")]
         public async Task<object> Delete(int empleado_Id)
         {
             try
             {
                 _response.Result = await _empleadoRepository.DeleteEmpleadoById(empleado_Id);
-                return true;
+                return _response.Result = true;
             }
             catch (Exception ex)
             {

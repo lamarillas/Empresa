@@ -14,3 +14,11 @@ code {
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
+
+.control-label.required:after {
+  color: #d00;
+  content: "*";
+  position: absolute;
+  margin-left: 5px;
+  top: 7px;
+}

@@ -57,7 +57,7 @@ namespace Empleados.Repository
             {
                 Empleado empleado = await _db.Empleados.FirstOrDefaultAsync(e => e.Empleado_Id == empleado_id);
 
-                if (empleado != null) return false;
+                if (empleado == null) return false;
 
                 _db.Empleados.Remove(empleado);
                 await _db.SaveChangesAsync();

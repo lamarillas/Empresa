@@ -1,4 +1,4 @@
-<form>
+<form [formGroup]="frmEmpleado">
   <!--<div class="row">
     <div class="position-relative">
       <div class="position-absolute top-0 end-0">
@@ -22,10 +22,10 @@
             <div class="col col-md-auto">
               <nav class="nav justify-content-end doc-tab-nav align-items-center">
                 <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
-                  <button type="button" class="btn btn-outline-dark">Nuevo</button>
-                  <button type="button" class="btn btn-outline-dark" (click)="consultar()">Consultar</button>
-                  <button type="button" class="btn btn-outline-dark" (click)="guardar()">Guardar</button>
-                  <button type="button" class="btn btn-outline-dark">Limpiar</button>
+                  <button type="button" class="btn btn-outline-dark" [disabled]="frmEmpleado.value.empleado_Id > 0" (click)="nuevo()">Nuevo</button>
+                  <!--<button type="button" class="btn btn-outline-dark" (click)="consultar()">Consultar</button>-->
+                  <button type="button" class="btn btn-outline-dark" [disabled]="frmEmpleado.value.empleado_Id === ''" (click)="guardar()">Guardar</button>
+                  <button type="button" class="btn btn-outline-dark" [disabled]="frmEmpleado.value.empleado_Id === ''" (click)="limpiar()">Limpiar</button>
                 </div>
               </nav>
             </div>
@@ -35,49 +35,70 @@
         <div class="card-body p-0">
           <div class="p-4">
             <div class="row mb-4">
-              <div class="col-4">
-                <label for="empleado_id" class="form-label col-form-label-sm">ID Empleado</label>
+              <div class="col-4 form-group">
+                <label for="empleado_id" class="form-label col-form-label-sm required">ID Empleado</label>
                 <div class="col-6">
                   <div class="input-group input-group-sm mb-3">
-                    <input type="number" id="empleado_id" class="form-control form-control-sm" name="empleado_id" aria-label=".form-control-sm">
-                    <button class="btn btn-sm btn-outline-secondary" type="button" id="btn-consultar">Consultar</button>
+                    <input type="number" id="empleado_id" class="form-control form-control-sm" name="empleado_id" formControlName="empleado_Id" aria-label=".form-control-sm">
+                    <button class="btn btn-sm btn-outline-secondary" type="button" id="btn-consultar" [disabled]="frmEmpleado.controls.empleado_Id.value === 1" (click)="consultar()">Consultar</button>
                   </div>
                 </div>
 
               </div>
               <div class="col-4">
-                <label for="empleado_fecha_nacimiento" class="form-label  col-form-label-sm">Fecha Nacimiento</label>
+                <label for="empleado_fecha_nacimiento"
+                       class="form-label col-form-label-sm">
+                  Fecha Nacimiento
+                </label>
                 <div class="col-6">
-                  <input type="date" id="empleado_fecha_nacimiento" class="form-control form-control-sm" name="empleado_fecha_nacimiento" aria-label=".form-control-sm">
+                  <input type="date" id="empleado_fecha_nacimiento"
+                         class="form-control form-control-sm"
+                         name="empleado_fecha_nacimiento"
+                         formControlName="fecha_Nacimiento"
+                         aria-label=".form-control-sm">
                 </div>
 
               </div>
               <div class="col-4">
                 <label for="empleado_estatus" class="form-label col-form-label-sm">Estatus</label>
                 <div class="col-8">
-                  <select class="form-select form-select-sm" id="empleado_estatus" name="empleado_estatus">
-                    <option selected>-- Seleccione --</option>
-                    <option>Activo</option>
-                    <option>No activo</option>
+                  <select class="form-select form-select-sm" id="empleado_estatus" name="empleado_estatus" formControlName="estatus_Id">
+                    <option value="0" selected>-- Seleccione --</option>
+                    <option value="1">Activo</option>
+                    <option value="2">No activo</option>
                   </select>
+                  <app-field-error-display [displayError]="isEstatusValid()" errorMsg="Estatus es requerido">
+                  </app-field-error-display>
                 </div>
 
               </div>
             </div>
 
             <div class="row">
-              <div class="col-4">
-                <label for="empleado_nombre" class="form-label col-form-label-sm">Nombre</label>
-                <input type="text" id="empleado_nombre" class="form-control form-control-sm" name="empleado_nombre" aria-label=".form-control-sm">
+              <div class="col-4" [ngClass]="displayFieldCss('nombre')">
+                <label for="empleado_nombre" class="form-label col-form-label-sm required">Nombre</label>
+                <input type="text" id="empleado_nombre"
+                       class="form-control form-control-sm"
+                       name="empleado_nombre"
+                       formControlName="nombre"
+                       [disableControl]="apagado"
+                       aria-label=".form-control-sm">
+                <app-field-error-display [displayError]="isFieldValid('nombre')" errorMsg="Nombre es requerido">
+                </app-field-error-display>
               </div>
-              <div class="col-4">
-                <label for="empleado_nombre_paterno" class="form-label col-form-label-sm">Apellido Paterno</label>
-                <input type="text" id="empleado_nombre_paterno" class="form-control form-control-sm" name="empleado_nombre_paterno" aria-label=".form-control-sm">
 
+              <div class="col-4" [ngClass]="displayFieldCss('apellido_Paterno')">
+                <label for="empleado_nombre_paterno" class="form-label col-form-label-sm required">Apellido Paterno</label>
+                <input type="text" id="empleado_nombre_paterno" class="form-control form-control-sm" name="empleado_nombre_paterno" formControlName="apellido_Paterno" aria-label=".form-control-sm">
+                <app-field-error-display [displayError]="isFieldValid('apellido_Paterno')" errorMsg="Apellido Paterno es requerido">
+                </app-field-error-display>
               </div>
-              <div class="col-4">
-                <label for="empleado_nombre_materno" class="form-label col-form-label-sm">Apellido Materno</label>
-                <input type="text" id="empleado_nombre_materno" class="form-control form-control-sm" name="empleado_nombre_materno" aria-label=".form-control-sm">
+
+              <div class="col-4" [ngClass]="displayFieldCss('apellido_Materno')">
+                <label for="empleado_nombre_materno" class="form-label col-form-label-sm required">Apellido Materno</label>
+                <input type="text" id="empleado_nombre_materno" class="form-control form-control-sm" name="empleado_nombre_materno" formControlName="apellido_Materno" aria-label=".form-control-sm">
+                <app-field-error-display [displayError]="isFieldValid('apellido_Materno')" errorMsg="Apellido Materno es requerido">
+                </app-field-error-display>
               </div>
 
             </div>
@@ -85,76 +106,86 @@
           </div>
 
 
-
+         
           <hr />
 
+          <!--<div class="p-4" *ngIf="!empleados$ | async as data">
+            <p>Cargando</p>
+          </div>-->
+
+            <div class="p-4" *ngIf="empleados$ | async as data">
+
+              <div class="alert alert-warning" *ngIf="data.result.length === 0">
+                <p>No hay empleados registrados.</p>
+              </div>
 
 
-          <div class="p-4" *ngIf="empleados$ | async as data">
-
-
-            <table class="table table-sm caption-top">
-              <caption>Listado de empleados - 4 en Total</caption>
-              <thead>
-                <tr>
-                  <th>Empleado ID</th>
-                  <th>Nombre</th>
-                  <th>Fecha Nac.</th>
-                  <th>Estatus</th>
-                  <th> </th>
-                </tr>
-              </thead>
-              <tbody class="table-group-divider">
-
-                <ng-container *ngFor="let emp of data.result">
+              <table *ngIf="data.result.length > 0" class="table table-sm caption-top">
+                <caption>Listado de empleados - {{ data.result.length }} en Total</caption>
+                <thead>
                   <tr>
-                    <td>{{ emp.empleado_Id }}</td>
-                    <td>{{ emp.nombre }} {{ emp.apellido_Paterno }} {{ emp.apellido_Materno }}</td>
-                    <td>{{ emp.fecha_Nacimiento }}</td>
-                    <td>{{ emp.estatus.descripcion }}</td>
-                    <td>
-                      <a href="#">Seleccionar</a>
-                    </td>
+                    <th>Empleado ID</th>
+                    <th>Nombre</th>
+                    <th>Fecha Nac.</th>
+                    <th>Estatus</th>
+                    <th> </th>
+                    <th> </th>
                   </tr>
-                </ng-container>
+                </thead>
+                <tbody class="table-group-divider">
+
+                  <ng-container *ngFor="let emp of data.result">
+                    <tr>
+                      <td>{{ emp.empleado_Id }}</td>
+                      <td>{{ emp.nombre }} {{ emp.apellido_Paterno }} {{ emp.apellido_Materno }}</td>
+                      <td>{{ emp.fecha_Nacimiento | date : "dd/MM/yyyy" }}</td>
+                      <td>{{ emp.estatus.descripcion }}</td>
+                      <td>
+                        <button class="btn btn-link" (click)="seleccionar(emp)">Seleccionar</button>
+                      </td>
+                      <td>
+                        <button class="btn btn-link" (click)="borrar(emp.empleado_Id)">Borrar</button>
+                      </td>
+                    </tr>
+                  </ng-container>
 
 
 
-                <!--<tr>
-    <td>001</td>
-    <td>Leobardo Amarillas</td>
-    <td>10/11/1982</td>
-    <td>Activo</td>
-    <td>
-      <a href="#">Seleccionar</a>
-    </td>
-  </tr>
-  <tr>
-    <td>001</td>
-    <td>Leobardo Amarillas</td>
-    <td>10/11/1982</td>
-    <td>Activo</td>
-    <td>
-      <a href="#">Seleccionar</a>
-    </td>
-  </tr>
-  <tr>
-    <td>001</td>
-    <td>Leobardo Amarillas</td>
-    <td>10/11/1982</td>
-    <td>Activo</td>
-    <td>
-      <a href="#">Seleccionar</a>
-    </td>
-  </tr>-->
-              </tbody>
+                  <!--<tr>
+            <td>001</td>
+            <td>Leobardo Amarillas</td>
+            <td>10/11/1982</td>
+            <td>Activo</td>
+            <td>
+              <a href="#">Seleccionar</a>
+            </td>
+          </tr>
+          <tr>
+            <td>001</td>
+            <td>Leobardo Amarillas</td>
+            <td>10/11/1982</td>
+            <td>Activo</td>
+            <td>
+              <a href="#">Seleccionar</a>
+            </td>
+          </tr>
+          <tr>
+            <td>001</td>
+            <td>Leobardo Amarillas</td>
+            <td>10/11/1982</td>
+            <td>Activo</td>
+            <td>
+              <a href="#">Seleccionar</a>
+            </td>
+          </tr>-->
+                </tbody>
 
-            </table>
+              </table>
+            </div>
+
+
           </div>
-
-
         </div>
-      </div>
     </div>
 
   </div>

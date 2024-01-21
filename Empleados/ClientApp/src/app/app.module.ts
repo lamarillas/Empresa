@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
@@ -11,6 +11,8 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { EmpleadoComponent } from './empleado/empleado.component';
 import { EstatusComponent } from './estatus/estatus.component';
+import { DisableControlDirective } from './disable-control.directive';
+import { FieldErrorDisplayComponent } from './field-error-display/field-error-display.component';
 
 @NgModule({
   declarations: [
@@ -20,12 +22,17 @@ import { EstatusComponent } from './estatus/estatus.component';
     CounterComponent,
     FetchDataComponent,
     EmpleadoComponent,
-    EstatusComponent
+    EstatusComponent,
+    FieldErrorDisplayComponent,
+    //DisableControlDirective
+    
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
+    DisableControlDirective,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'empleado', component: EmpleadoComponent },
